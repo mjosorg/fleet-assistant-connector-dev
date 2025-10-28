@@ -12,6 +12,7 @@ RUN \
     jq \
     nftables \
     coreutils \
-    python3
+    python3 \
+    py3-pip
 
 COPY rootfs /
