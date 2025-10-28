@@ -1,0 +1,14 @@
+#!/usr/bin/with-contenv bashio
+
+echo "Running python API backup!"
+
+declare serverip
+
+if bashio::config.has_value "server.tunnelip"; then
+    serverip=$(bashio::config "server.tunnelip")
+fi
+
+python3 /usr/bin/api_backup.py --FleetAssistantServerIP=serverip
+
+
+
