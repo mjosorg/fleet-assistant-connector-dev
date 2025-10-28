@@ -1,5 +1,5 @@
 {
-    "name": "Home Assistant m-connect addon",
-    "url": "https://github.com/kjetilmjos/m-connect",
-    "maintainer": "Kjetil Mjøs <kjetil@mjos.org>"
+    "name": "Fleet assistant connector for Home Assistant",
+    "url": "https://github.com/mjosorg/fleet-assistant-connector-dev",
+    "maintainer": "Post <post@fleet-assistant.io>"
 }

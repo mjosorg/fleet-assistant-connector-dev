@@ -1,3 +1,6 @@
+## 2025.10.0
+- Added support for uploading backup via API instead of rsync
+  
 ## 2025.08.0
 - Updated build from argument to specify which version is used
   
