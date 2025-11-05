@@ -3,6 +3,8 @@ import time
 import requests
 import argparse
 
+print("Invoking backup check script")
+
 
 parser = argparse.ArgumentParser(
     description="Trigger a backup via fleet assistant API"
@@ -14,6 +16,8 @@ FleetAssistantServerIP = args.FleetAssistantServerIP
 
 URL = f"http://{FleetAssistantServerIP}:8000/fleet_assistant_status"
 
+print(f"{URL}")
+
 def check_status():
     try:
         response = requests.get(URL, timeout=5)
@@ -24,7 +28,9 @@ def check_status():
     except Exception as e:
         print(f"[EXCEPTION] {e}")
 
-if __name__ == "__main__":
-    while True:
-        check_status()
-        time.sleep(600)  # wait 10 minutes (600 seconds)
+
+while True:
+    print("Checking status...")
+    check_status()
+    print("Sleeping...")
+    time.sleep(600)  # wait 10 minutes (600 seconds)
