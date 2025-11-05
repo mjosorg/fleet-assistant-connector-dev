@@ -14,4 +14,4 @@ bashio::log.info "Running API backup.."
 
 #python3 /usr/bin/check_backup_server_status.py --FleetAssistantServerIP=serverip
 
-python3 /usr/bin/check_backup_server_status.py
+python3 /scripts/check_backup_server_status.py

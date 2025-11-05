@@ -28,7 +28,7 @@ options:
     publickey: inputpublickeyfrommaster
     tunnelip: inputtunnelIP
     enable_backup: false
-    username: username
+    installation_id: username
 
 schema:
   server:
@@ -37,4 +37,4 @@ schema:
     publickey: str
     tunnelip: str
     enable_backup: bool
-    username: str
+    installation_id: str
