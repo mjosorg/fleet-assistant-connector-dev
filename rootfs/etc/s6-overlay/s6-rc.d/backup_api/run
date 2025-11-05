@@ -1,17 +1,5 @@
-#!/command/with-contenv bashio
-# ==============================================================================
-# Home Assistant Community Add-on: Fleet Assistant
-# Runs backup service
-# ==============================================================================
-#declare serverip
+#!/usr/bin/with-contenv bashio
 
-bashio::log.info "Running API backup.."
+bashio::log.info "---------Starting python API sript--------"
 
-
-#if bashio::config.has_value "server.tunnelip"; then
-#    serverip=$(bashio::config "server.tunnelip")
-#fi
-
-#python3 /usr/bin/check_backup_server_status.py --FleetAssistantServerIP=serverip
-
-python3 /scripts/check_backup_server_status.py
+python3 /etc/s6-overlay/scripts/check_backup_server_status.py
