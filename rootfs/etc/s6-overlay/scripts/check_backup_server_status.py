@@ -56,7 +56,7 @@ while True:
 
         if upload_suceeded == True:
             cleanup(filename)
-        else
+        else:
             print("Upload failed, not deleting local backup file.")
     else:
         print("No backup needed at this time.")
