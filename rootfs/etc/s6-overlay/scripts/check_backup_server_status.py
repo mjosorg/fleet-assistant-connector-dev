@@ -54,4 +54,4 @@ while True:
         print("No backup needed at this time.")
 
     print("Sleeping...")
-    time.sleep(30)  # wait 10 minutes (600 seconds)
+    time.sleep(1200)  # wait 10 minutes (600 seconds)
