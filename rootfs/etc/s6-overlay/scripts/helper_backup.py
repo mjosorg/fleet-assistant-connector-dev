@@ -24,7 +24,6 @@ import os
 def create_backup():
     # Get the supervisor token from environment variable
     SUPER_TOKEN = os.environ.get("SUPERVISOR_TOKEN")
-    print(SUPER_TOKEN)
     if not SUPER_TOKEN:
         raise EnvironmentError("SUPERVISOR_TOKEN environment variable not set")
 

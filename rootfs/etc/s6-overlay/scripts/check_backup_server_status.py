@@ -1,5 +1,6 @@
 # This code will query the Fleet Assistant backup server and check if it's time to create and upload a new backup.
 import time
+from datetime import datetime
 import requests
 import argparse
 from helper_backup import create_backup
@@ -47,8 +48,12 @@ while True:
     if backup_creation_needed == True:
         print("Triggering backup creation and upload...")
         backup_slug = create_backup()
-        print(backup_slug)
-    #    download_backup(backup_slug, "/tmp/backup.tar")
+        print(f"Backup slug: {backup_slug}")
+
+        timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
+        filename = f"backup-{timestamp}.tar"
+
+        download_backup(backup_slug, filename)
      #   upload_backup(FleetToken, Installation_id)
     else:
         print("No backup needed at this time.")
