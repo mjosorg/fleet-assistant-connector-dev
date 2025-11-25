@@ -73,8 +73,14 @@ def upload_backup(FleetAssistantServerIP, FleetToken, Installation_id, filename)
 
     with open(filename, "rb") as f:
         r = requests.post(url, data=f, headers=headers, params=params)
+        
+    if r.status_code == 200:
+        print("Upload succeeded")
+        return True
+    else:
+        print(f"Upload failed with status code {r.status_code} and response: {r.json()}")
+        return False
 
-    print(r.json())
 
 
 def cleanup(file_source):
