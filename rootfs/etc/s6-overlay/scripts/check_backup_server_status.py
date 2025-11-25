@@ -51,7 +51,7 @@ while True:
         print(f"Backup slug: {backup_slug}")
 
         timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
-        filename = f"backup-{timestamp}.tar"
+        filename = f"/tmp/backup-{timestamp}.tar"
 
         download_backup(backup_slug, filename)
      #   upload_backup(FleetAssistantServerIP, FleetToken, Installation_id, filename)

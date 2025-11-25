@@ -29,7 +29,7 @@ def create_backup():
 
     return backup_slug
 
-def download_backup(backup_slug, file_source):
+def download_backup(backup_slug, file_name):
     # Get the supervisor token from environment variable
     SUPER_TOKEN = os.environ.get("SUPERVISOR_TOKEN")
     if not SUPER_TOKEN:
@@ -44,38 +44,38 @@ def download_backup(backup_slug, file_source):
         if not response.ok:
             raise Exception(f"Download failed: {response.status_code} {response.text}")
 
-        with open(file_source, "wb") as f:
+        with open(file_name, "wb") as f:
             for chunk in response.iter_content(chunk_size=8192):
                 if chunk:  # filter out keep-alive chunks
                     f.write(chunk)
 
-    print(f"Backup {backup_slug} downloaded successfully to {file_source}")
+    print(f"Backup {backup_slug} downloaded successfully to {file_name}")
 
 
 def upload_backup(FleetAssistantServerIP, FleetToken, Installation_id, filename):
     # Upload to fleet assistant admin server
-    file_path = "/tmp/{filename}}"
     url = f"http://{FleetAssistantServerIP}:8000/ha_upload_backup"
 
 
     # Calculate hash before sending
     sha256 = hashlib.sha256()
-    with open(file_path, "rb") as f:
+    with open(filename, "rb") as f:
         for chunk in iter(lambda: f.read(8192), b""):
             sha256.update(chunk)
     expected_hash = sha256.hexdigest()
 
     headers = {
-        "X-Filename": os.path.basename(file_path),
+        "X-Filename": os.path.basename(filename),
         "X-Checksum-Sha256": expected_hash,
         "X-Token": FleetToken
     }
     params = {"installation_id": Installation_id}
 
-    with open(file_path, "rb") as f:
+    with open(filename, "rb") as f:
         r = requests.post(url, data=f, headers=headers, params=params)
 
     print(r.json())
+
 
 def cleanup(file_source):
     try:
