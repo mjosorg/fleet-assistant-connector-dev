@@ -2,24 +2,6 @@
 import hashlib
 import requests
 import os 
-#def get_supervisor_token():
-    # Get the supervisor token from environment variable
- #   SUPER_TOKEN = os.environ.get("SUPERVISOR_TOKEN")
-
-    # Define the URL
-  #  url = "http://supervisor/backups/info"
-
-    # Make the request
-  #  headers = {"Authorization": f"Bearer {SUPER_TOKEN}"}
-  #  response = requests.get(url, headers=headers)
-
-    # Get the response text or JSON
-    #if response.ok:
-    #    all_backups = response.json()  # or response.text if you want raw output
-    #    print(all_backups)
-   # else:
-    #    print(f"Error {response.status_code}: {response.text}")
-
 
 def create_backup():
     # Get the supervisor token from environment variable
@@ -70,10 +52,10 @@ def download_backup(backup_slug, file_source):
     print(f"Backup {backup_slug} downloaded successfully to {file_source}")
 
 
-def upload_backup(FleetToken, Installation_id):
+def upload_backup(FleetAssistantServerIP, FleetToken, Installation_id, filename):
     # Upload to fleet assistant admin server
-    file_path = "/data/fleet-assistant-connector-dev/changeme.tar"
-    url = "http://localhost:8000/ha_upload_backup"
+    file_path = "/tmp/{filename}}"
+    url = f"http://{FleetAssistantServerIP}:8000/ha_upload_backup"
 
 
     # Calculate hash before sending

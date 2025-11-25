@@ -3,7 +3,7 @@ import time
 from datetime import datetime
 import requests
 import argparse
-from helper_backup import create_backup
+from helper_backup import create_backup, download_backup, upload_backup, cleanup
 
 print("Invoking backup check script")
 
@@ -54,7 +54,8 @@ while True:
         filename = f"backup-{timestamp}.tar"
 
         download_backup(backup_slug, filename)
-     #   upload_backup(FleetToken, Installation_id)
+     #   upload_backup(FleetAssistantServerIP, FleetToken, Installation_id, filename)
+       # cleanup(filename)
     else:
         print("No backup needed at this time.")
 
