@@ -1,6 +1,6 @@
 #!/command/with-contenv bashio
 # ==============================================================================
-# Home Assistant Add-on: m-connect
+# Home Assistant Add-on: Fleet Assistant Connector
 # Creates the interface configuration
 # ==============================================================================
 declare config_dir
@@ -13,9 +13,10 @@ declare host
 declare port
 declare post_down
 declare post_up
+declare fleet_assistant_server_ip
 
-clientname="m-connect"
-config_dir="/data/m-connect"
+clientname="fleet-assistant"
+config_dir="/data/fleet-assistant"
 
 # Wireguard configuration directory
 if ! bashio::fs.directory_exists '/etc/wireguard'; then
@@ -26,13 +27,7 @@ fi
 # Wireguard configuration directory for persistent storage
 if ! bashio::fs.directory_exists "${config_dir}"; then
     mkdir -p ${config_dir} ||
-        bashio::exit.nok "Could not create persistent storage folder for m-connect!"
-fi
-
-# Status API Storage
-if ! bashio::fs.directory_exists '/var/lib/wireguard'; then
-    mkdir -p /var/lib/wireguard \
-        || bashio::exit.nok "Could not create status API storage folder"
+        bashio::exit.nok "Could not create persistent storage folder for fleet-assistant!"
 fi
 
 # If private key not exists create a new one.
@@ -66,7 +61,9 @@ fi
 if bashio::config.has_value "server.port"; then
     port=$(bashio::config "server.port")
 fi
-
+if bashio::config.has_value "server.fleet_assistant_server_ip"; then
+    fleet_assistant_server_ip=$(bashio::config "server.fleet_assistant_server_ip")
+fi
 # The post up lines are needed for the addon to access Home Assistant core container
 post_up="nft add table ip nat 2>/dev/null; nft add chain ip nat PREROUTING { type nat hook prerouting priority 0 \; } 2>/dev/null; nft add chain ip nat POSTROUTING { type nat hook postrouting priority 100 \; } 2>/dev/null; nft add rule ip nat PREROUTING dnat to 172.30.32.1; nft add rule ip nat POSTROUTING masquerade"
 post_down="nft flush table ip nat; nft delete table ip nat"
@@ -80,7 +77,7 @@ echo "PostUp = ${post_up}"
 echo "PostDown = ${post_down}"
 echo "[Peer]"
 echo "PublicKey = ${publickey}"
-echo "AllowedIPs = 10.170.204.0/27"
+echo "AllowedIPs = ${fleet_assistant_server_ip}/32"
 echo "Endpoint = ${host}:${port}"
 echo "PersistentKeepalive = 25"
 echo ""
@@ -88,12 +85,11 @@ echo ""
 
 
 # Move config file to /etc/wireguard if the file does not exist
-if ! bashio::fs.file_exists '/etc/wireguard/m-connect.conf'; then
+if ! bashio::fs.file_exists "/etc/wireguard/${clientname}.conf"; then
     cp "${config_dir}/${clientname}.conf" "/etc/wireguard/${clientname}.conf" ||
         bashio::exit.nok "Unable to move config file to /etc/wireguard"
 fi
-# Store for the status API based on interface name
-echo -n "${clientname}" > "/var/lib/wireguard/m-connect"
 
+# Print the public key to the log
 pubkey=$(cat "${config_dir}/public_key")
 bashio::log.info "The wireguard public key is: $pubkey"
