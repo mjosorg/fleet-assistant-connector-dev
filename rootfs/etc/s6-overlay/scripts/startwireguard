@@ -10,7 +10,7 @@ declare interface
 bashio::log.info "Starting WireGuard..."
 
 # Get the interface
-interface="m-connect"
+interface="fleet-assistant"
 
 # Run the WireGuard
 exec wg-quick up "${interface}"
